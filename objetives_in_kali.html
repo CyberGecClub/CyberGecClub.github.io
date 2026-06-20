@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux Basics for Hackers – Course Objectives</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: #f5f7fa;
+            padding: 2rem 1rem;
+            color: #1e293b;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .container {
+            background: white;
+            border-radius: 24px;
+            padding: 2.5rem 2.5rem 2rem;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+            border: 1px solid #e9edf4;
+        }
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #0b3b5c, #1b6f8c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.25rem;
+            letter-spacing: -0.5px;
+        }
+        .subhead {
+            color: #5b6f86;
+            font-size: 1.1rem;
+            border-bottom: 2px solid #eef2f8;
+            padding-bottom: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        .phase {
+            background: #f8faff;
+            border-radius: 16px;
+            padding: 1.6rem 2rem;
+            margin-bottom: 1.8rem;
+            border-left: 6px solid #1b6f8c;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+        .phase h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #0a2942;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .phase h2 span {
+            background: #1b6f8c;
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.15rem 0.9rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            -webkit-text-fill-color: white;
+        }
+        .objective-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .objective-list li {
+            padding: 0.6rem 0 0.6rem 2rem;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%231b6f8c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>') left center no-repeat;
+            background-size: 1.1rem;
+            line-height: 1.5;
+            border-bottom: 1px solid #edf2f9;
+        }
+        .objective-list li:last-child {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            background: #eef2f8;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.1rem 0.7rem;
+            border-radius: 30px;
+            color: #2b4a6b;
+            margin-left: 0.4rem;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+        .footer-note {
+            margin-top: 2.2rem;
+            padding-top: 1.2rem;
+            border-top: 2px solid #eef2f8;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            color: #4d6279;
+            font-size: 0.95rem;
+        }
+        .footer-note strong {
+            color: #0a2942;
+        }
+        @media (max-width: 600px) {
+            .container { padding: 1.2rem; }
+            .phase { padding: 1.2rem; }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🧠 Linux Basics for Hackers</h1>
+    <div class="subhead">📌 Complete list of learning objectives — check off each one as you master it.</div>
+
+    <!-- Phase 1 -->
+    <div class="phase">
+        <h2><span>01</span> Environment &amp; System Mastery</h2>
+        <ul class="objective-list">
+            <li><strong>Set up</strong> your hacking lab by installing Kali Linux on a VirtualBox virtual machine.</li>
+            <li><strong>Navigate</strong> the Linux filesystem fluently using <code>cd</code>, <code>ls</code>, <code>pwd</code>, and understand the purpose of key directories (<code>/etc</code>, <code>/var</code>, <code>/bin</code>, <code>/root</code>).</li>
+            <li><strong>Manipulate</strong> file content using text processing tools: <code>head</code>, <code>tail</code>, <code>grep</code>, <code>sed</code>, and <code>nl</code>.</li>
+            <li><strong>Manage</strong> file and directory permissions using <code>chmod</code> (both numeric and UGO syntax) to secure or open access to tools.</li>
+            <li><strong>Identify</strong> and exploit <strong>SUID/SGID</strong> bits as a vector for privilege escalation on a target system.</li>
+        </ul>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="phase">
+        <h2><span>02</span> Network &amp; Service Control</h2>
+        <ul class="objective-list">
+            <li><strong>Analyze</strong> active network interfaces and modify IP addresses, netmasks, and MAC addresses using <code>ifconfig</code> to spoof identity.</li>
+            <li><strong>Query</strong> DNS records (<code>dig</code>) and alter local resolution by editing <code>/etc/hosts</code> and <code>/etc/resolv.conf</code>.</li>
+            <li><strong>Start, stop, and restart</strong> critical background services (Apache, MySQL, SSH, PostgreSQL) using <code>service</code>.</li>
+            <li><strong>Interact</strong> with MySQL databases (show tables, select data, change passwords) to extract sensitive information.</li>
+            <li><strong>Connect</strong> securely to remote systems using OpenSSH.</li>
+        </ul>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="phase">
+        <h2><span>03</span> Wireless &amp; Network Reconnaissance</h2>
+        <ul class="objective-list">
+            <li><strong>Activate monitor mode</strong> on a wireless adapter using <code>airmon-ng</code> to capture raw Wi-Fi traffic.</li>
+            <li><strong>Scan</strong> for nearby Wi-Fi access points and connected clients to gather BSSID, channel, and signal strength (<code>airodump-ng</code>).</li>
+            <li><strong>Scan</strong> for Bluetooth devices and enumerate their services using <code>hcitool</code> and <code>sdptool</code>.</li>
+            <li><strong>Build</strong> a functional remote spy camera using a Raspberry Pi and <code>raspistill</code>.</li>
+        </ul>
+    </div>
+
+    <!-- Phase 4 -->
+    <div class="phase">
+        <h2><span>04</span> Scripting &amp; Automation (Bash &amp; Python)</h2>
+        <ul class="objective-list">
+            <li><strong>Write executable Bash scripts</strong> that accept user input (<code>read</code>), utilize variables, and automate scanning tasks (e.g., a port scanner).</li>
+            <li><strong>Schedule</strong> your custom scripts to run automatically at specific times using <code>crontab</code> (e.g., daily at 2 AM).</li>
+            <li><strong>Write Python scripts</strong> to build a <strong>TCP client/server</strong> (socket programming) for banner grabbing and reconnaissance.</li>
+            <li><strong>Code a password cracker</strong> in Python using the <code>ftplib</code> module and <code>try/except</code> logic to brute-force FTP logins.</li>
+        </ul>
+    </div>
+
+    <!-- Phase 5 -->
+    <div class="phase">
+        <h2><span>05</span> Stealth, Anonymity &amp; Forensics</h2>
+        <ul class="objective-list">
+            <li><strong>Cover your tracks</strong> by stopping the <code>rsyslog</code> daemon and permanently shredding log files (<code>/var/log/*</code>) using the <code>shred</code> command.</li>
+            <li><strong>Route</strong> your web traffic through a chain of proxy servers using <strong>ProxyChains</strong> to obscure your source IP.</li>
+            <li><strong>Configure</strong> and utilize the <strong>Tor browser</strong> to access the dark web and browse anonymously.</li>
+            <li><strong>Enable IP forwarding</strong> using <code>sysctl</code> to set up a Man-in-the-Middle (MITM) attack environment.</li>
+            <li><strong>Make physical bit-for-bit copies</strong> of storage devices (including deleted files) using the <code>dd</code> command.</li>
+        </ul>
+    </div>
+
+    <div class="footer-note">
+        <span>✅ <strong>Progress check:</strong> If you can perform every task above on a live Kali system, you've completed the course.</span>
+        <span>📖 <em>Linux Basics for Hackers</em> – OccupyTheWeb</span>
+    </div>
+</div>
+</body>
+</html>

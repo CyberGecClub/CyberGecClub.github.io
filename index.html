@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CGEC Club – Linux Hacking Course</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            background: #0b0f17;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .deck {
+            max-width: 1100px;
+            width: 100%;
+            background: linear-gradient(145deg, #141c2b, #1a2438);
+            border-radius: 36px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 0 1px #2d3d5a inset;
+            padding: 1.2rem 2.5rem 1.8rem;
+            color: #e4edf5;
+        }
+        /* header */
+        .club-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #25344f;
+            padding-bottom: 0.7rem;
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .club-header .brand {
+            font-weight: 700;
+            color: #8bb3e6;
+            font-size: 1.2rem;
+            letter-spacing: 0.5px;
+        }
+        .club-header .brand i { color: #5d9cff; margin-right: 8px; }
+        .club-header .tagline {
+            color: #5d7a9e;
+            font-size: 0.9rem;
+            border: 1px solid #25344f;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+        }
+        .slides {
+            min-height: 420px;
+            position: relative;
+        }
+        .slide {
+            display: none;
+            animation: fadeSlide 0.35s ease-out;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+        .slide.active { display: flex; }
+        @keyframes fadeSlide {
+            0% { opacity: 0.4; transform: translateY(14px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .slide h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #9bc9ff, #6aa9f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+        .slide h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #c6deff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .slide h2 i { color: #4f94e6; font-size: 1.8rem; -webkit-text-fill-color: #4f94e6; }
+        .slide p, .slide li { font-size: 1.1rem; line-height: 1.6; color: #cbdae9; }
+        .slide ul, .slide ol { padding-left: 1.6rem; }
+        .slide li { margin-bottom: 0.4rem; }
+        .badge-mod {
+            display: inline-block;
+            background: #1f3450;
+            padding: 0.15rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #8bb3e6;
+            border: 1px solid #2d4a70;
+            -webkit-text-fill-color: #8bb3e6;
+        }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .card {
+            background: #1a263b;
+            border-radius: 16px;
+            padding: 1.2rem 1.4rem;
+            border-left: 4px solid #3a6cb5;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .card i { color: #5d9cff; margin-right: 8px; }
+        .part-badge {
+            background: #1f3450;
+            padding: 0.2rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #9bc9ff;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+            border: 1px solid #2d4a70;
+        }
+        /* quiz */
+        .quiz-opt {
+            display: block;
+            background: #1f2d44;
+            padding: 0.8rem 1.2rem;
+            margin: 0.5rem 0;
+            border-radius: 12px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: 0.15s;
+            font-weight: 500;
+            color: #d3e2f5;
+        }
+        .quiz-opt:hover { background: #293d5c; border-color: #4f7fc9; }
+        .quiz-opt.correct { border-color: #2ecc71; background: #1d3d2a; color: #8effb2; }
+        .quiz-opt.wrong { border-color: #e74c3c; background: #3d1f1f; color: #ff9e9e; }
+        .quiz-feedback {
+            margin-top: 0.8rem;
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            background: #111d2e;
+            border-left: 6px solid #3a6cb5;
+            font-weight: 500;
+            display: none;
+        }
+        .quiz-feedback.show { display: block; }
+        /* lab reveal */
+        .lab-step {
+            background: #141f31;
+            padding: 0.8rem 1.2rem;
+            margin: 0.5rem 0;
+            border-radius: 10px;
+            border-left: 3px solid #3a6cb5;
+            cursor: pointer;
+            transition: 0.15s;
+            font-weight: 500;
+        }
+        .lab-step:hover { background: #1e2e48; }
+        .lab-step .hidden-detail {
+            display: none;
+            margin-top: 0.6rem;
+            padding: 0.6rem 1rem;
+            background: #0d1624;
+            border-radius: 8px;
+            font-weight: 400;
+            color: #b4cef0;
+            border: 1px dashed #2d4a70;
+        }
+        .lab-step.open .hidden-detail { display: block; }
+        .lab-step .step-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .lab-step .step-label i { color: #5d9cff; }
+        /* progress & footer */
+        .progress-wrap {
+            margin-top: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            border-top: 1px solid #25344f;
+            padding-top: 1.2rem;
+            flex-wrap: wrap;
+        }
+        .progress-bar {
+            flex: 1;
+            height: 6px;
+            background: #1f2d44;
+            border-radius: 12px;
+            overflow: hidden;
+            min-width: 80px;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #3a7bd5, #6aa9f0);
+            border-radius: 12px;
+            transition: width 0.4s;
+        }
+        .nav-buttons { display: flex; gap: 0.6rem; }
+        .nav-buttons button {
+            background: #1f3450;
+            border: none;
+            color: #c6deff;
+            padding: 0.5rem 1.2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.15s;
+            border: 1px solid #2d4a70;
+            font-size: 0.9rem;
+        }
+        .nav-buttons button:hover { background: #2a4166; border-color: #4f7fc9; }
+        .nav-buttons button:disabled { opacity: 0.35; pointer-events: none; }
+        .slide-counter { font-size: 0.9rem; color: #7a94b9; font-weight: 500; }
+        .footer-club { color: #5d7a9e; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+        .footer-club i { color: #5d9cff; }
+        .icon-lg { font-size: 2.2rem; margin-right: 12px; color: #5d9cff; }
+        @media (max-width: 700px) {
+            .deck { padding: 1.2rem; }
+            .slide h1 { font-size: 2rem; }
+            .grid-2 { grid-template-columns: 1fr; }
+            .progress-wrap { flex-wrap: wrap; justify-content: center; }
+            .club-header { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+<div class="deck">
+
+    <!-- ========= HEADER: CGEC Club ========= -->
+    <div class="club-header">
+        <div class="brand"><i class="fas fa-shield-alt"></i> CGEC Club</div>
+        <div class="tagline"><i class="fas fa-graduation-cap"></i> Hacking &amp; Security Academy</div>
+        <div><a href="linux_basics_hackers_guide.html">Click here to start challenge</a></div>
+    </div>
+
+    <div class="slides">
+        <!-- ===== SLIDE 0: TITLE ===== -->
+        <div class="slide active" data-index="0">
+            <h1><i class="fas fa-skull"></i> Linux Basics for Hackers</h1>
+            <p style="font-size:1.4rem; color:#9bb9e6;">12‑Module Course · 4 Parts · Quizzes after each part</p>
+            <p style="color:#8bb3e6; margin:0.2rem 0 0.8rem;"><i class="fas fa-user-astronaut"></i> Presented by <strong style="color:#c6deff;">CGEC Club</strong></p>
+            <div style="display:flex; gap:0.8rem; flex-wrap:wrap;">
+                <span class="badge-mod"><i class="fas fa-terminal"></i> Kali Linux</span>
+                <span class="badge-mod"><i class="fas fa-code"></i> Bash + Python</span>
+                <span class="badge-mod"><i class="fas fa-wifi"></i> Wireless</span>
+                <span class="badge-mod"><i class="fas fa-user-secret"></i> Anonymity</span>
+            </div>
+            <div style="margin-top:1.2rem; background:#111d2e; padding:1rem 1.2rem; border-radius:14px; border-left:4px solid #3a6cb5;">
+                <i class="fas fa-flag" style="color:#f1c40f;"></i> <strong>Structure:</strong> Learn 3 modules → take a quiz → repeat. Final capstone project at the end.
+            </div>
+            <div>
+                <img src="https://scontent.fbzv4-1.fna.fbcdn.net/v/t39.30808-6/710572622_122100273759347799_9126463893337179843_n.jpg?stp=cp6_dst-jpg_tt6&cstp=mx2048x1536&ctp=s720x720&_nc_cat=110&ccb=1-7&_nc_sid=f727a1&_nc_ohc=T4n0WBjWtDoQ7kNvwHZpgiY&_nc_oc=AdrgPzdZgDc1gxuEiqFQVfE2rLIblft5ndJ2QXjfK9rwjSOgDaX3A7Dd7VfPzQddJas&_nc_zt=23&_nc_ht=scontent.fbzv4-1.fna&_nc_gid=EyCHItAiJCSbF8fruC0Miw&_nc_ss=7b2a8&oh=00_Af84-Ll6pFR1QB3-RmdM38mL4jGYHVDiuc6YTMdoHYy0fQ&oe=6A39FCE5" alt="CGEC Club Logo" style="display:block; width:100%; max-width:700px; margin:1.2rem auto 0; border-radius:12px;">
+            </div>
+        </div>
+        <!-- SLIDE 0: Module 0 -->
+         <div class="slide" data-index="0.5">
+            <div>
+                <h2>Linux Shell, Filesystems, and Permissions in Security Context</h2>
+                <p>Understanding the Linux shell, filesystem structure, and permissions is crucial for security professionals. The shell allows you to interact with the system, while the filesystem organizes data and permissions control access. Mastering these concepts enables you to navigate, manage, and secure Linux systems effectively.</p>
+                <img src="https://blog.kubesimplify.com/img/blog/linux-system-directories-explained/7f_ypWYSW.png" alt=" Linux Filesystem Hierarchy" style="width:100%; border-radius:12px; margin-top:1rem;">
+            </div>
+         </div>
+
+        <!-- ============================================================ -->
+        <!-- ========= PART 1 : MODULES 1, 2, 3 ========= -->
+        <!-- ============================================================ -->
+
+        <!-- SLIDE 1: Module 1 -->
+        <div class="slide" data-index="1">
+            <div class="part-badge"><i class="fas fa-layer-group"></i> Part 1 · Foundations</div>
+            <h2><i class="fas fa-folder"></i> Module 1: Essential Terminal Navigation Commands </h2>
+            <code><ul>
+                        <li>pwd : Print Working Directory </li>
+                        <li>cd [directory]: Change Directory </li>
+                        <li>ls -la : List all files and directories with details </li>
+                        <li>mkdir [name]: Make a new directory </li>
+                        <li>rmdir [name]: Remove an empty directory </li>
+                        <li>touch [name]: Create an empty file or update timestamp </li>
+                        <li>rm [name]: Remove a file </li>
+                        <li> mv [source] [destination]: Move or rename a file </li>
+                        <li> cp [source] [destination]: Copy a file </li>
+                    </ul></code> 
+            <div class="lab-step" data-reveal="cd /etc && ls -la">
+                <div class="step-label"><span>🧪 <strong>Lab:</strong> Essential Terminal Navigation Commands </span> <i class="fas fa-chevron-down"></i></div>
+    
+                <div class="hidden-detail"><code>
+                   <h1>Lab: Essential Terminal Navigation Commands</h1>
+                   <h2>📋 Prerequisites & Setup</h2>
+                   <p>Before starting, open your terminal application (Terminal on Linux/macOS, or Git Bash / WSL on Windows). You will begin in your user's home directory.</p>
+                    <h3>🛠️ Lab Exercises</h3>
+                    <ol>
+                        <li><strong>Print Working Directory:</strong> Type <code>pwd</code> and press Enter. Note the current directory path.</li>
+                        <li><strong>List Files:</strong> Use <code>ls -la</code> to list all files and directories, including hidden ones, with detailed information.</li>
+                        <li><strong>Create a Directory:</strong> Create a new directory named "test_dir" using <code>mkdir test_dir</code>.</li>
+                        <li><strong>Change Directory:</strong> Navigate into "test_dir" with <code>cd test_dir</code>.</li>
+                        <li><strong>Create a File:</strong> Inside "test_dir", create an empty file named "example.txt" using <code>touch example.txt</code>.</li>
+                        <li><strong>Copy the File:</strong> Copy "example.txt" to a new file named "copy_example.txt" using <code>cp example.txt copy_example.txt</code>.</li>
+                        <li><strong>Rename the File:</strong> Rename "copy_example.txt" to "renamed_example.txt" using <code>mv copy_example.txt renamed_example.txt</code>.</li>
+                        <li><strong>Remove the File:</strong> Delete "renamed_example.txt" using <code>rm renamed_example.txt</code>.</li>
+                        <li><strong>Return to Home Directory:</strong> Use <code>cd ~</code> to return to your home directory.</li>
+                    <p></p>
+
+                </code></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: Module 2 -->
+        <div class="slide" data-index="2">
+            <div class="part-badge"><i class="fas fa-layer-group"></i> Part 1 · Foundations</div>
+            <h2><i class="fas fa-file-alt"></i> Module 2: Text Control, Network Verifications, & Permissions</h2>
+            <h3 style="color:rgb(134, 135, 204);">Log Auditing & Text Filters </h3>
+            <code><ul>
+                <li><code style="color:rgb(62, 181, 218);">head</code> / <code>tail</code> – view start/end of files</li>
+                <li><code style="color:rgb(62, 181, 218);">grep</code> – filter lines by pattern</li>
+                <li><strong><code style="color:rgb(62, 181, 218);">Count lines:</code></strong> <code>wc</code> – word count</li>
+                <li><code style="color:rgb(62, 181, 218);">sed</code> – find &amp; replace</li>
+                <li><strong><code style="color:rgb(62, 181, 218);">More [file]:</code></strong> view file page by page; Space next page, Enter next line, b back one page, /pattern search, q quit. </li>
+                <li><strong><code style="color:rgb(62, 181, 218);">Less [file]:</code></strong> Establishes an interactive pagination frame, allowing key-driven upward and downward tracking controls. </li>
+                <li><strong  style="color:rgb(62, 181, 218)    ;"><code>Number lines:</code></strong> <code>nl</code> – number lines</li>
+                <li><strong  style="color:rgb(62, 181, 218)    ;">Pipes</strong> (<code style="color:rgb(62, 181, 218);">|</code>) connect commands</li>
+                <li><strong  style="color:rgb(62, 181, 218)    ;">Redirection</strong> (<code style="color:rgb(62, 181, 218);">&gt;</code>, <code style="color:rgb(62, 181, 218);">&lt;</code>) control input/output</li>
+                <li><strong><code style="color:rgb(62, 181, 218);">tail -n [x] [file]:</code></strong> <code>cat [file] | tail -n [x]</code> Extracts the lowest, final X lines. Indispensable for monitoring live incoming exploit connections.</li>
+
+            </ul></code>
+            <div class="lab-step" data-reveal="cat snort.conf | grep output">
+                <div class="step-label"><span>🧪 <strong>Lab:</strong> Practice exam</span> <i class="fas fa-chevron-down"></i></div>
+                <div class="hidden-detail">
+                    <div style="background:#0f172a; color:#e2e8f0; padding:1rem; border-radius:12px; border:1px solid #1f2d44;">
+                        <h3 style="margin:0 0 1rem 0; font-size:1.1rem; color:#8eb8ff;">🔐 Linux Cybersecurity Quiz</h3>
+                        <form id="embeddedQuizForm">
+                            <div style="margin-bottom:1rem; background:#111f32; padding:1rem; border-radius:10px;">
+                                <p style="margin:0 0 0.5rem 0;">1. What does <code>cat</code> do?</p>
+                                <label style="display:block; margin:0.25rem 0;"><input type="radio" name="q1" value="b"> Displays full file</label>
+                                <label style="display:block; margin:0.25rem 0;"><input type="radio" name="q1" value="a"> First lines</label>
+                                <label style="display:block; margin:0.25rem 0;"><input type="radio" name="q1" value="c"> Deletes file</label>
+                            </div>
+                            <div style="margin-bottom:1rem; background:#111f32; padding:1rem; border-radius:10px;">
+                                <p style="margin:0 0 0.5rem 0;">2. Which command shows first 10 lines?</p>
+                                <label style="display:block; margin:0.25rem 0;"><input type="radio" name="q2" value="a"> tail -n 10</label>
+                                <label style="display:block; margin:0.25rem 0;"><input type="radio" name="q2" value="b"> head -n 10</label>
+                                <label style="display:block; margin:0.25rem 0;"><input type="radio" name="q2" value="c"> less</label>
+                            </div>
+                            <div style="margin-bottom:1rem; background:#111f32; padding:1rem; border-radius:10px;">
+                                <p style="margin:0 0 0.5rem 0;">3. What does <code>tail -n 5</code> do?</p>
+                                <label style="display:block; margin:0.25rem 0;"><input type="radio" name="q3" value="a"> Last 5 lines</label>
+                                <label style="display:block; margin:0.25rem 0;"><input type="radio" name="q3" value="b"> First 5 lines</label>
+                            </div>
+                            <div style="margin-bottom:1rem; background:#111f32; padding:1rem; border-radius:10px;">
+                                <p style="margin:0 0 0.5rem 0;">4. What does the pipe <code>|</code> do?</p>
+                                <label style="display:block; margin:0.25rem 0;"><input type="radio" name="q4" value="b"> Connect commands</label>
+                                <label style="display:block; margin:0.25rem 0;"><input type="radio" name="q4" value="a"> Delete files</label>
+                            </div>
+                            <button type="button" onclick="checkEmbeddedQuizAnswers()" style="margin-top:0.75rem; padding:0.8rem 1rem; width:100%; border:none; border-radius:10px; background:#22c55e; color:#fff; cursor:pointer; font-weight:600;">Submit</button>
+                        </form>
+                        <div id="embeddedQuizResult" style="margin-top:1rem; font-weight:700;"></div>
+                        <div style="margin-top:1rem; background:#111827; border-radius:8px; padding:10px; color:#22c55e;">
+                            <code>cat snort.conf | grep output</code>
+                            <p style="color:#9ca3af; margin-top:0.75rem;">👉 This command filters all "output" lines from the Snort configuration file.</p>
+                        </div>
+                    </div>
+                    <script>
+                        function checkEmbeddedQuizAnswers() {
+                            const answers = { q1: 'b', q2: 'b', q3: 'a', q4: 'b' };
+                            let score = 0;
+                            for (const q in answers) {
+                                const selected = document.querySelector('.slide[data-index="2"] input[name="' + q + '"]:checked');
+                                if (selected && selected.value === answers[q]) {
+                                    score++;
+                                }
+                            }
+                            document.getElementById('embeddedQuizResult').textContent = '✅ Score: ' + score + '/4';
+                        }
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2.5: Module 2.5 -->
+         <div class="slide" data-index="2.5">
+            <div class="part-badge"><i class="fas fa-layer-group"></i> Module 2.5 – Linux Text Editors & Text Processing Utilities</div>
+            <h2><i class="fas fa-network-wired"></i> 📄 Text Editors</h2>
+
+            
+            <h3>Nano</h3>
+            <ul>
+                <li><strong>Syntax:</strong> nano [options] [filename]
+            </li>
+                <li><strong>Role:</strong>Acts as a straightforward, visual scratchpad. It immediately displays your file text and lists control shortcuts at the bottom of the screen, making it ideal for quick, hassle-free edits.</li>
+            </ul>
+            <h3>Vim</h3>
+            <ul>
+                <li><strong>Syntax:</strong> vim [options] [filename]</li>
+                <li><strong>Role:</strong> A powerful, modal text editor with a steep learning curve, offering extensive customization and automation capabilities.</li>
+            </ul>
+            <h3>Vi</h3>
+            <ul>
+                <li><strong>Syntax:</strong> vi [options] [filename]</li>
+                <li><strong>Role:</strong> A classic, modal text editor that is lightweight and available on almost all Unix-like systems, providing essential editing features.</li>
+            </ul>
+            <h2><i class="fas fa-terminal"></i>Search & Transformation Utilities</h2>
+            <ul>
+                <li><strong style="color: #3b82f6;">grep:</strong> Searches for patterns in files and outputs matching lines.
+                <br>syntax: grep [pattern] [file]</li>
+                <li><strong style="color: #3b82f6;">sed:</strong> Stream editor for filtering and transforming text.
+                <br>sed [options] [script] [file]
+                <br>example: sed 's/old/new/g' file.txt</li>
+                <li><strong style="color: #3b82f6;">awk:</strong> A versatile programming language for pattern scanning and processing.
+                <br>syntax: awk [options] [pattern] [file]
+                <br>example: awk '/pattern/ { print $0 }' file.txt</li>
+                <li><strong style="color: #3b82f6;">cut:</strong> Removes sections from each line of files.
+                <br>syntax: cut [options] [file]
+                <br>example: cut -d',' -f1 file.txt</li>
+                <li><strong style="color: #3b82f6;">sort:</strong> Sorts lines of text files. <br/>
+                syntax: sort [options] [file]
+                <br>example: sort file.txt</li>
+                <li><strong style="color: #3b82f6;">uniq:</strong> Reports or filters out repeated lines in a file.
+                <br>uniq [options] [file]
+                <br>example: uniq file.txt</li>
+            </ul>
+            <h2>Summary</h2>
+            <p>This module covers three common Linux text editors: nano for simple, immediate edits; vim for advanced modal editing and automation; and vi as the classic lightweight editor available on most Unix-like systems. It also introduces core text-processing utilities that help search, transform and manage text data: grep, sed, awk, cut, sort, and uniq.</p>
+            <div class="lab-step" data-reveal="nano lab_notes.txt">
+                <div class="step-label"><span>🧪 <strong>Lab 1:</strong> Use a text editor</span> <i class="fas fa-chevron-down"></i></div>
+                <div class="hidden-detail"><code>nano lab_notes.txt</code><br>Write a short note, save it, then reopen it with <code>vim lab_notes.txt</code> or <code>vi lab_notes.txt</code> to compare the editors.</div>
+            </div>
+            <div class="lab-step" data-reveal="grep 'error' lab_notes.txt | sort | uniq">
+                <div class="step-label"><span>🧪 <strong>Lab 2:</strong> Practice text utilities</span> <i class="fas fa-chevron-down"></i></div>
+                <div class="hidden-detail"><code>grep 'error' lab_notes.txt | sort | uniq</code><br>Then try: <code>cut -d' ' -f1 lab_notes.txt</code>, <code>sed 's/note/log/g' lab_notes.txt</code>, and <code>awk '{print $1}' lab_notes.txt</code>.</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Module 3 -->
+        <div class="slide" data-index="3">
+            <div class="part-badge"><i class="fas fa-layer-group"></i> Part 1 · Foundations</div>
+            <h2><i class="fas fa-network-wired"></i> Module 3 – Networking &amp; Spoofing</h2>
+            <div>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cybersecurity Training</title>
+
+<!-- ✅ BASE STYLES -->
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 20px;
+}
+h1 {
+    text-align: center;
+}
+h2 {
+    color: #22c55e;
+}
+</style>
+
+<!-- ✅ LAYOUT STYLES -->
+<style>
+.container {
+    max-width: 900px;
+    margin: auto;
+}
+
+.section {
+    background: #1e293b;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+</style>
+
+<!-- ✅ COMPONENT STYLES -->
+<style>
+.lab-step {
+    background: #111827;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.lab-step:hover {
+    background: #1f2937;
+}
+
+.step-label {
+    display: flex;
+    justify-content: space-between;
+}
+
+.hidden-detail {
+    display: none;
+    margin-top: 10px;
+    background: black;
+    padding: 10px;
+    color: #22c55e;
+    border-radius: 6px;
+}
+
+code {
+    background: black;
+    padding: 4px;
+    color: #22c55e;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🔐 Cybersecurity Training</h1>
+
+<!-- NETWORK -->
+<div class="section">
+<h2>🌐 Network Verification</h2>
+
+<div class="lab-step" onclick="toggle(this)">
+    <div class="step-label">
+        <span>View all network interfaces and their IP addresses</span><span>▼</span>
+        
+    </div>
+    <div class="hidden-detail">
+        <code>ip address show</code>
+    </div>
+    <div class="hidden-detail">
+        <p>Or the short version</p>
+         <code style=" background: black; color: #22c55e; padding: 4px;">ip a</code>
+    </div>
+</div>
+
+<!-- Checking Connectivity -->
+<div class="lab-step" onclick="toggle(this)">
+    <div class="step-label">
+        <span>Test connectivity to a remote host</span><span>▼</span>
+    </div>
+    <div class="hidden-detail">
+        <code>ping [IP]</code>
+        <code>ping -c 4 8.8.8.8</code>
+    </div>
+</div>
+<!-- Checking Paths -->
+<div class="lab-step" onclick="toggle(this)">
+    <div class="step-label">
+        <span>Checking Paths</span><span>▼</span>
+    </div>
+    <div class="hidden-detail">
+        <p>Shows the exact path (routers) your packets take to reach a destination.</p>
+        <code>traceroute [IP] (or mtr)</code>
+    </div>
+</div>
+<!-- DNS Resolution -->
+
+<div class="lab-step" onclick="toggle(this)">
+    <div class="step-label">
+        <span>DNS Resolution</span><span>▼</span>
+    </div>
+    <div class="hidden-detail">
+        <code>dig [domain] or nslookup [domain]</code>
+        <span>Queries DNS servers to see how a domain name maps to an IP address. It reads configuration from</span>
+        <code>cat /etc/resolv.conf</code>
+    </div>
+</div>
+
+<!-- Inspecting Ports and Sockets -->
+<div class="lab-step" onclick="toggle(this)">
+    <div class="step-label">
+        <span>List all listening TCP/UDP ports with the process ID/name</span><span>▼</span>
+    </div>
+    <div class="hidden-detail">
+        <code>sudo ss -tulnp</code>
+    </div>
+</div>
+
+
+</div>
+
+
+
+
+
+
+<!-- Routing and the Routing Table -->
+<div class="lab-step" onclick="toggle(this)">
+    <div class="step-label">
+        <span>View the routing table</span><span>▼</span>
+    </div>
+    <div class="hidden-detail">
+        <code>ip route show</code>
+    </div>
+</div>
+<!-- Network Configuration -->
+<div class="lab-step" onclick="toggle(this)">
+    <div class="step-label">
+        <span>View current network configuration</span><span>▼</span>
+    </div>
+    <div class="hidden-detail">
+        <code>ifconfig</code>
+        <p>or </p>
+        <code>ip addr show</code>
+    </div>
+    <!-- Netfilter: Firewalls and NAT -->
+    <div class="hidden-detail">
+        <p>View current firewall rules:</p>
+        <code>sudo iptables -L</code>
+    </div>
+</div>
+
+</div>
+
+
+<!-- ✅ SCRIPT -->
+<script>
+function toggle(el) {
+    let detail = el.querySelector(".hidden-detail");
+    detail.style.display = (detail.style.display === "block") ? "none" : "block";
+}
+</script>
+</body>
+</html>
+</div>
+            <div class="lab-step" data-reveal="ifconfig eth0 down && ifconfig eth0 hw ether 00:11:22:33:44:55 && ifconfig eth0 up">
+                <div class="step-label"><span>🧪 <strong>Exam:</strong> Practice Quiz</span> <i class="fas fa-chevron-down"></i></div>
+                <div class="hidden-detail"><code><a href="https://gemini.google.com/share/5ddcf07ce889">Click here to play the quiz</a></code></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: QUIZ PART 1 -->
+        <div class="slide" data-index="4">
+            <div class="part-badge"><i class="fas fa-question-circle"></i> Quiz · Part 1</div>
+            <h2><i class="fas fa-brain"></i> Foundations Quiz</h2>
+            <p><strong>Q1.</strong> Which directory holds system configuration files?</p>
+            <div class="quiz" data-correct="1">
+                <div class="quiz-opt" data-val="0">A) <code>/home</code></div>
+                <div class="quiz-opt" data-val="1">B) <code>/etc</code></div>
+                <div class="quiz-opt" data-val="2">C) <code>/bin</code></div>
+                <div class="quiz-opt" data-val="3">D) <code>/tmp</code></div>
+                <div class="quiz-feedback">✅ Correct! <code>/etc</code> stores config files.</div>
+                <div class="quiz-feedback" data-wrong>❌ Try again – think about where services keep their configs.</div>
+            </div>
+            <p style="margin-top:1rem;"><strong>Q2.</strong> Which command displays only lines with "mysql"?</p>
+            <div class="quiz" data-correct="2">
+                <div class="quiz-opt" data-val="0">A) <code>cat file &gt; mysql</code></div>
+                <div class="quiz-opt" data-val="1">B) <code>grep file mysql</code></div>
+                <div class="quiz-opt" data-val="2">C) <code>cat file | grep mysql</code></div>
+                <div class="quiz-opt" data-val="3">D) <code>sed file mysql</code></div>
+                <div class="quiz-feedback">✅ <code>cat | grep</code> is the standard pipe pattern.</div>
+                <div class="quiz-feedback" data-wrong>❌ Remember: <code>grep</code> filters, pipes (<code>|</code>) connect.</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- ========= PART 2 : MODULES 4, 5, 6 ========= -->
+        <!-- ============================================================ -->
+        <!-- SLIDE 5: Module 4 -->
+        <div class="slide" data-index="5">
+            <div class="part-badge"><i class="fas fa-layer-group"></i> Part 2 · Security &amp; Admin</div>
+            <h2><i class="fas fa-lock"></i> Module 4 – Permissions &amp; PrivEsc</h2>
+            <ul>
+                <li><strong>r</strong> (4), <strong>w</strong> (2), <strong>x</strong> (1)</li>
+                <li><code>chmod 755</code> – owner: rwx, group/others: r-x</li>
+                <li><strong>SUID</strong> (setuid) – execute with owner’s rights</li>
+                <li><strong>PrivEsc:</strong> <code>find / -perm -4000</code> finds SUID binaries</li>
+            </ul>
+            <div class="lab-step" data-reveal="find / -perm -4000 2>/dev/null">
+                <div class="step-label"><span>🧪 <strong>Lab:</strong> Find all SUID files on Kali</span> <i class="fas fa-chevron-down"></i></div>
+                <div class="hidden-detail"><code>find / -perm -4000 2>/dev/null</code></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: Module 5 -->
+        <div class="slide" data-index="6">
+            <div class="part-badge"><i class="fas fa-layer-group"></i> Part 2 · Security &amp; Admin</div>
+            <h2><i class="fas fa-tasks"></i> Module 5 – Process Management</h2>
+            <ul>
+                <li><code>ps aux</code> – all processes</li>
+                <li><code>top</code> – real-time resource usage</li>
+                <li><code>kill -9 PID</code> – force kill</li>
+                <li><code>nice</code> / <code>renice</code> – priority</li>
+                <li><code>&amp;</code> – background, <code>fg</code> – foreground</li>
+            </ul>
+            <div class="lab-step" data-reveal="ps aux | grep leafpad">
+                <div class="step-label"><span>🧪 <strong>Lab:</strong> Find the PID of leafpad</span> <i class="fas fa-chevron-down"></i></div>
+                <div class="hidden-detail"><code>ps aux | grep leafpad</code></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: Module 6 -->
+        <div class="slide" data-index="7">
+            <div class="part-badge"><i class="fas fa-layer-group"></i> Part 2 · Security &amp; Admin</div>
+            <h2><i class="fas fa-terminal"></i> Module 6 – Bash Scripting</h2>
+            <ul>
+                <li>Shebang: <code>#!/bin/bash</code></li>
+                <li>Variables: <code>name="Hacker"</code></li>
+                <li>User input: <code>read</code></li>
+                <li><strong>Project:</strong> MySQL port scanner</li>
+            </ul>
+            <div style="background:#111d2e; padding:0.8rem 1.2rem; border-radius:12px; font-size:0.9rem;">
+                <code>nmap -sT $IP -p 3306 &gt;/dev/null -oG scan; cat scan | grep open</code>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: QUIZ PART 2 -->
+        <div class="slide" data-index="8">
+            <div class="part-badge"><i class="fas fa-question-circle"></i> Quiz · Part 2</div>
+            <h2><i class="fas fa-brain"></i> Security &amp; Admin Quiz</h2>
+            <p><strong>Q1.</strong> <code>chmod 644 file</code> gives what permissions?</p>
+            <div class="quiz" data-correct="1">
+                <div class="quiz-opt" data-val="0">A) Owner: rwx, Group: rwx, Others: rwx</div>
+                <div class="quiz-opt" data-val="1">B) Owner: rw-, Group: r--, Others: r--</div>
+                <div class="quiz-opt" data-val="2">C) Owner: r--, Group: r--, Others: ---</div>
+                <div class="quiz-opt" data-val="3">D) Owner: rwx, Group: r-x, Others: r-x</div>
+                <div class="quiz-feedback">✅ 6=rw-, 4=r--, 4=r--</div>
+                <div class="quiz-feedback" data-wrong>❌ 6 = 4+2 (rw-), 4 = r--.</div>
+            </div>
+            <p style="margin-top:1rem;"><strong>Q2.</strong> What does <code>#!/bin/bash</code> do?</p>
+            <div class="quiz" data-correct="0">
+                <div class="quiz-opt" data-val="0">A) Tells OS to use Bash interpreter</div>
+                <div class="quiz-opt" data-val="1">B) Comments out the line</div>
+                <div class="quiz-opt" data-val="2">C) Exports a variable</div>
+                <div class="quiz-opt" data-val="3">D) Creates a loop</div>
+                <div class="quiz-feedback">✅ Correct! Shebang line.</div>
+                <div class="quiz-feedback" data-wrong>❌ Shebang defines the interpreter.</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- ========= PART 3 : MODULES 7, 8, 9 ========= -->
+        <!-- ============================================================ -->
+        <!-- SLIDE 9: Module 7 -->
+        <div class="slide" data-index="9">
+            <div class="part-badge"><i class="fas fa-layer-group"></i> Part 3 · Storage &amp; Services</div>
+            <h2><i class="fas fa-hdd"></i> Module 7 – Storage &amp; Forensics</h2>
+            <ul>
+                <li><code>tar -cvf</code> – archive files</li>
+                <li><code>gzip</code> / <code>bzip2</code> – compress</li>
+                <li><code>fdisk -l</code> – list drives</li>
+                <li><code>mount</code> / <code>umount</code></li>
+                <li><code>dd if=/dev/sdb of=copy.img</code> – bit‑for‑bit copy (includes deleted files)</li>
+            </ul>
+            <div class="lab-step" data-reveal="dd if=/dev/sdb of=/root/backup.img bs=4096 conv=noerror">
+                <div class="step-label"><span>🧪 <strong>Lab:</strong> Bit‑for‑bit copy of a USB drive</span> <i class="fas fa-chevron-down"></i></div>
+                <div class="hidden-detail"><code>dd if=/dev/sdb of=/root/backup.img bs=4096 conv=noerror</code></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: Module 8 -->
+        <div class="slide" data-index="10">
+            <div class="part-badge"><i class="fas fa-layer-group"></i> Part 3 · Storage &amp; Services</div>
+            <h2><i class="fas fa-history"></i> Module 8 – Logging &amp; Scheduling</h2>
+            <ul>
+                <li><code>rsyslog</code> – logging daemon</li>
+                <li><code>shred</code> – overwrite logs permanently</li>
+                <li><code>service rsyslog stop</code> – disable logging</li>
+                <li><strong>Cron:</strong> <code>crontab -e</code> schedule scripts</li>
+                <li>Format: <code>min hour day mon dow command</code></li>
+            </ul>
+            <div class="lab-step" data-reveal="0 3 * * * /root/scanner.sh">
+                <div class="step-label"><span>🧪 <strong>Lab:</strong> Schedule a script daily at 3 AM</span> <i class="fas fa-chevron-down"></i></div>
+                <div class="hidden-detail"><code>0 3 * * * /root/scanner.sh</code></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 11: Module 9 -->
+        <div class="slide" data-index="11">
+            <div class="part-badge"><i class="fas fa-layer-group"></i> Part 3 · Storage &amp; Services</div>
+            <h2><i class="fas fa-database"></i> Module 9 – Services (Apache, MySQL, SSH)</h2>
+            <ul>
+                <li><code>service apache2 start</code> – web server</li>
+                <li>Edit <code>/var/www/html/index.html</code></li>
+                <li><code>mysql -u root -p</code> – MySQL CLI</li>
+                <li><code>SELECT * FROM table;</code></li>
+                <li><code>ssh pi@192.168.1.101</code> – remote control</li>
+            </ul>
+            <div class="lab-step" data-reveal="mysql -u root -p -e 'SHOW DATABASES;'">
+                <div class="step-label"><span>🧪 <strong>Lab:</strong> Connect to MySQL and list databases</span> <i class="fas fa-chevron-down"></i></div>
+                <div class="hidden-detail"><code>mysql -u root -p -e 'SHOW DATABASES;'</code></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 12: QUIZ PART 3 -->
+        <div class="slide" data-index="12">
+            <div class="part-badge"><i class="fas fa-question-circle"></i> Quiz · Part 3</div>
+            <h2><i class="fas fa-brain"></i> Storage &amp; Services Quiz</h2>
+            <p><strong>Q1.</strong> What is the primary use of <code>dd</code> in forensics?</p>
+            <div class="quiz" data-correct="2">
+                <div class="quiz-opt" data-val="0">A) Compress files</div>
+                <div class="quiz-opt" data-val="1">B) Delete logs</div>
+                <div class="quiz-opt" data-val="2">C) Make bit‑for‑bit copies</div>
+                <div class="quiz-opt" data-val="3">D) Change permissions</div>
+                <div class="quiz-feedback">✅ <code>dd</code> copies every sector, including deleted data.</div>
+                <div class="quiz-feedback" data-wrong>❌ Think evidence preservation – physical copy.</div>
+            </div>
+            <p style="margin-top:1rem;"><strong>Q2.</strong> What is the default port for MySQL?</p>
+            <div class="quiz" data-correct="3">
+                <div class="quiz-opt" data-val="0">A) 22</div>
+                <div class="quiz-opt" data-val="1">B) 80</div>
+                <div class="quiz-opt" data-val="2">C) 443</div>
+                <div class="quiz-opt" data-val="3">D) 3306</div>
+                <div class="quiz-feedback">✅ 3306 is the standard MySQL port.</div>
+                <div class="quiz-feedback" data-wrong>❌ MySQL uses 3306.</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- ========= PART 4 : MODULES 10, 11, 12 ========= -->
+        <!-- ============================================================ -->
+        <!-- SLIDE 13: Module 10 -->
+        <div class="slide" data-index="13">
+            <div class="part-badge"><i class="fas fa-layer-group"></i> Part 4 · Advanced &amp; Scripting</div>
+            <h2><i class="fas fa-user-secret"></i> Module 10 – Anonymity</h2>
+            <ul>
+                <li><strong>Tor</strong> – onion routing</li>
+                <li><strong>ProxyChains</strong> – chain multiple proxies</li>
+                <li>Config: <code>/etc/proxychains.conf</code></li>
+                <li><code>proxychains nmap -sT target</code></li>
+                <li><strong>VPN</strong> – encrypted tunnel</li>
+            </ul>
+            <div class="lab-step" data-reveal="proxychains firefox https://check.torproject.org">
+                <div class="step-label"><span>🧪 <strong>Lab:</strong> Browse through ProxyChains</span> <i class="fas fa-chevron-down"></i></div>
+                <div class="hidden-detail"><code>proxychains firefox https://check.torproject.org</code></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 14: Module 11 -->
+        <div class="slide" data-index="14">
+            <div class="part-badge"><i class="fas fa-layer-group"></i> Part 4 · Advanced &amp; Scripting</div>
+            <h2><i class="fas fa-wifi"></i> Module 11 – Wireless &amp; Bluetooth</h2>
+            <ul>
+                <li><code>airmon-ng start wlan0</code> – monitor mode</li>
+                <li><code>airodump-ng wlan0mon</code> – capture APs/clients</li>
+                <li><strong>Bluetooth:</strong> <code>hciconfig</code>, <code>hcitool scan</code></li>
+                <li><code>sdptool browse</code> – enumerate services</li>
+            </ul>
+            <div class="lab-step" data-reveal="airmon-ng start wlan0 && airodump-ng wlan0mon">
+                <div class="step-label"><span>🧪 <strong>Lab:</strong> Enable monitor mode and capture Wi‑Fi</span> <i class="fas fa-chevron-down"></i></div>
+                <div class="hidden-detail"><code>airmon-ng start wlan0 && airodump-ng wlan0mon</code></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 15: Module 12 -->
+        <div class="slide" data-index="15">
+            <div class="part-badge"><i class="fas fa-layer-group"></i> Part 4 · Advanced &amp; Scripting</div>
+            <h2><i class="fab fa-python"></i> Module 12 – Python Scripting</h2>
+            <ul>
+                <li><strong>Socket module</strong> – TCP client/server</li>
+                <li><strong>Banner grabber:</strong> <code>socket.connect()</code></li>
+                <li><strong>FTP cracker:</strong> <code>ftplib</code> + <code>try/except</code></li>
+                <li><strong>Loops</strong> – iterate through wordlists</li>
+            </ul>
+            <div style="background:#111d2e; padding:0.8rem 1.2rem; border-radius:12px; font-size:0.9rem;">
+                <code>import socket; s = socket.socket(); s.connect(("192.168.1.1", 22)); print(s.recv(1024))</code>
+            </div>
+        </div>
+
+        <!-- SLIDE 16: QUIZ PART 4 -->
+        <div class="slide" data-index="16">
+            <div class="part-badge"><i class="fas fa-question-circle"></i> Quiz · Part 4</div>
+            <h2><i class="fas fa-brain"></i> Advanced &amp; Scripting Quiz</h2>
+            <p><strong>Q1.</strong> Which command enables monitor mode on wlan0?</p>
+            <div class="quiz" data-correct="0">
+                <div class="quiz-opt" data-val="0">A) <code>airmon-ng start wlan0</code></div>
+                <div class="quiz-opt" data-val="1">B) <code>ifconfig wlan0 up</code></div>
+                <div class="quiz-opt" data-val="2">C) <code>iwconfig wlan0 mode monitor</code></div>
+                <div class="quiz-opt" data-val="3">D) <code>aircrack-ng wlan0</code></div>
+                <div class="quiz-feedback">✅ <code>airmon-ng</code> handles monitor mode setup.</div>
+                <div class="quiz-feedback" data-wrong>❌ <code>airmon-ng start</code> is the standard.</div>
+            </div>
+            <p style="margin-top:1rem;"><strong>Q2.</strong> Which Python module is used for network sockets?</p>
+            <div class="quiz" data-correct="2">
+                <div class="quiz-opt" data-val="0">A) <code>os</code></div>
+                <div class="quiz-opt" data-val="1">B) <code>sys</code></div>
+                <div class="quiz-opt" data-val="2">C) <code>socket</code></div>
+                <div class="quiz-opt" data-val="3">D) <code>ftplib</code></div>
+                <div class="quiz-feedback">✅ <code>socket</code> provides TCP/UDP.</div>
+                <div class="quiz-feedback" data-wrong>❌ <code>socket</code> is the networking module.</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- ========= SLIDE 17: CAPSTONE ========= -->
+        <!-- ============================================================ -->
+        <div class="slide" data-index="17">
+            <h2><i class="fas fa-flag"></i> Capstone Project</h2>
+            <div style="background:#111d2e; padding:1.2rem; border-radius:16px; border:1px solid #2d4a70;">
+                <p><strong>Objective:</strong> Execute a full penetration test workflow.</p>
+                <ol style="margin-top:0.8rem;">
+                    <li><strong>Recon:</strong> Bash script to scan network for open ports.</li>
+                    <li><strong>Banner grab:</strong> Python script to identify services.</li>
+                    <li><strong>Anonymize:</strong> Route traffic through ProxyChains.</li>
+                    <li><strong>Access:</strong> SSH into target and retrieve a flag file.</li>
+                    <li><strong>Stealth:</strong> Disable logging on the target.</li>
+                </ol>
+                <div style="margin-top:1rem; background:#0a1422; border-radius:10px; padding:0.6rem 1rem; text-align:center; color:#8bb3e6;">
+                    ✅ Complete all 12 modules, then attempt this.
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- ========= SLIDE 18: PROGRESS ========= -->
+        <!-- ============================================================ -->
+        <div class="slide" data-index="18">
+            <h2><i class="fas fa-chart-line"></i> Your Progress</h2>
+            <p>Track your completed modules:</p>
+            <div style="display:grid; grid-template-columns: repeat(4,1fr); gap:0.6rem; margin:1rem 0;">
+                <div class="card" style="text-align:center; cursor:pointer;" onclick="toggleCheck(this)">⬜ 1</div>
+                <div class="card" style="text-align:center; cursor:pointer;" onclick="toggleCheck(this)">⬜ 2</div>
+                <div class="card" style="text-align:center; cursor:pointer;" onclick="toggleCheck(this)">⬜ 3</div>
+                <div class="card" style="text-align:center; cursor:pointer;" onclick="toggleCheck(this)">⬜ 4</div>
+                <div class="card" style="text-align:center; cursor:pointer;" onclick="toggleCheck(this)">⬜ 5</div>
+                <div class="card" style="text-align:center; cursor:pointer;" onclick="toggleCheck(this)">⬜ 6</div>
+                <div class="card" style="text-align:center; cursor:pointer;" onclick="toggleCheck(this)">⬜ 7</div>
+                <div class="card" style="text-align:center; cursor:pointer;" onclick="toggleCheck(this)">⬜ 8</div>
+                <div class="card" style="text-align:center; cursor:pointer;" onclick="toggleCheck(this)">⬜ 9</div>
+                <div class="card" style="text-align:center; cursor:pointer;" onclick="toggleCheck(this)">⬜ 10</div>
+                <div class="card" style="text-align:center; cursor:pointer;" onclick="toggleCheck(this)">⬜ 11</div>
+                <div class="card" style="text-align:center; cursor:pointer;" onclick="toggleCheck(this)">⬜ 12</div>
+            </div>
+            <div style="background:#111d2e; padding:0.8rem 1.2rem; border-radius:12px; text-align:center;">
+                <span id="progCount">0</span> / 12 completed
+            </div>
+        </div>
+
+    </div> <!-- end slides -->
+
+    <!-- ========= FOOTER: CGEC Club ========= -->
+    <div class="progress-wrap">
+        <div style="display:flex; align-items:center; gap:0.8rem; flex-wrap:wrap;">
+            <div class="slide-counter" id="slideCounter">1 / 19</div>
+            <div class="footer-club">
+                <i class="fas fa-user-astronaut"></i> CGEC Club <span style="color:#3a5a7a;">•</span> Hacking Academy
+            </div>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="nav-buttons">
+            <button id="prevBtn" disabled><i class="fas fa-chevron-left"></i> Back</button>
+            <button id="nextBtn">Next <i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ============================================================
+    // SLIDE MANAGER
+    // ============================================================
+    const slides = document.querySelectorAll('.slide');
+    let current = 0;
+    const total = 19;
+
+    function goTo(index) {
+        if (index < 0) index = 0;
+        if (index >= total) index = total - 1;
+        slides.forEach((s, i) => s.classList.toggle('active', i === index));
+        current = index;
+        document.getElementById('slideCounter').textContent = (current+1) + ' / ' + total;
+        document.getElementById('prevBtn').disabled = (current === 0);
+        document.getElementById('nextBtn').disabled = (current === total - 1);
+        const pct = ((current+1) / total) * 100;
+        document.getElementById('progressFill').style.width = pct + '%';
+    }
+
+    document.getElementById('prevBtn').addEventListener('click', () => goTo(current - 1));
+    document.getElementById('nextBtn').addEventListener('click', () => goTo(current + 1));
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); goTo(current + 1); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(current - 1); }
+    });
+
+    // ============================================================
+    // QUIZ LOGIC
+    // ============================================================
+    document.querySelectorAll('.quiz').forEach(quiz => {
+        const opts = quiz.querySelectorAll('.quiz-opt');
+        const correctIdx = parseInt(quiz.dataset.correct, 10);
+        const feedbacks = quiz.querySelectorAll('.quiz-feedback');
+        const correctFeedback = feedbacks[0];
+        const wrongFeedback = feedbacks[1] || feedbacks[0];
+
+        opts.forEach(opt => {
+            opt.addEventListener('click', function() {
+                if (this.classList.contains('correct') || this.classList.contains('wrong')) return;
+                const val = parseInt(this.dataset.val, 10);
+                const isCorrect = (val === correctIdx);
+                this.classList.add(isCorrect ? 'correct' : 'wrong');
+                if (isCorrect) {
+                    correctFeedback.classList.add('show');
+                    wrongFeedback.classList.remove('show');
+                } else {
+                    wrongFeedback.classList.add('show');
+                    correctFeedback.classList.remove('show');
+                }
+                opts.forEach(o => { if (o !== this) o.style.pointerEvents = 'none'; });
+            });
+        });
+    });
+
+    // ============================================================
+    // LAB STEP REVEAL
+    // ============================================================
+    document.querySelectorAll('.lab-step').forEach(step => {
+        step.addEventListener('click', function() {
+            this.classList.toggle('open');
+            const icon = this.querySelector('.step-label i');
+            if (icon) {
+                icon.style.transform = this.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+            }
+        });
+    });
+
+    // ============================================================
+    // PROGRESS CHECKBOX
+    // ============================================================
+    window.toggleCheck = function(card) {
+        if (card.textContent.includes('✅')) {
+            card.textContent = card.textContent.replace('✅', '⬜');
+        } else {
+            card.textContent = card.textContent.replace('⬜', '✅');
+        }
+        const cards = document.querySelectorAll('.slide[data-index="18"] .card');
+        let done = 0;
+        cards.forEach(c => { if (c.textContent.includes('✅')) done++; });
+        document.getElementById('progCount').textContent = done;
+    };
+
+    goTo(0);
+</script>
+</body>
+</html>

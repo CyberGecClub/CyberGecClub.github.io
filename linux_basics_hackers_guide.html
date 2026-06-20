@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linux Basics for Hackers — Chapter-to-Challenge Map</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f1117;
+    --surface: #161b27;
+    --surface2: #1e2535;
+    --border: #2a3347;
+    --green: #00e5a0;
+    --green-dim: rgba(0,229,160,0.12);
+    --blue: #4da6ff;
+    --blue-dim: rgba(77,166,255,0.1);
+    --amber: #f5a623;
+    --amber-dim: rgba(245,166,35,0.12);
+    --red-dim: rgba(255,80,80,0.12);
+    --red: #ff6b6b;
+    --text: #e2e8f0;
+    --muted: #8898aa;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0d1520 0%, #0f1117 60%);
+    padding: 80px 40px 64px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 60% 50% at 50% -10%, rgba(0,229,160,0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 80% 110%, rgba(77,166,255,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--green);
+    border: 1px solid var(--green);
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-weight: 700;
+    letter-spacing: -.02em;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #fff 40%, var(--green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    max-width: 640px;
+    margin: 0 auto 32px;
+    color: var(--muted);
+    font-size: 16px;
+  }
+  .note-box {
+    display: inline-flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: var(--blue-dim);
+    border: 1px solid rgba(77,166,255,0.25);
+    border-radius: 8px;
+    padding: 14px 20px;
+    max-width: 660px;
+    text-align: left;
+    font-size: 13px;
+    color: #a8c8f0;
+  }
+  .note-box .icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+  .note-box strong { color: var(--blue); }
+
+  /* ── SECTION WRAPPER ── */
+  .section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 56px 32px;
+  }
+  .section + .section { padding-top: 0; }
+
+  .section-header {
+    margin-bottom: 36px;
+  }
+  .section-header h2 {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -.02em;
+    color: #fff;
+  }
+  .section-header p {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 14px;
+    max-width: 680px;
+  }
+
+  /* ── CARD GRID ── */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    position: relative;
+    transition: border-color .2s, transform .2s;
+  }
+  .card:hover { border-color: var(--green); transform: translateY(-2px); }
+  .card-eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--green);
+    border: 1px solid rgba(0,229,160,0.3);
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-bottom: 12px;
+  }
+  .card h3 {
+    font-size: 17px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  .card .topic {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 16px;
+    font-family: var(--mono);
+  }
+  .card ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .card ul li { display: flex; gap: 10px; font-size: 13px; color: #b0bec5; }
+  .card ul li .label {
+    font-weight: 600;
+    color: var(--blue);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* workshop card variant */
+  .card.workshop {
+    border-color: rgba(245,166,35,0.3);
+    background: rgba(245,166,35,0.05);
+  }
+  .card.workshop .card-eyebrow { color: var(--amber); border-color: rgba(245,166,35,0.4); }
+  .card.workshop:hover { border-color: var(--amber); }
+  .card.workshop .label { color: var(--amber); }
+
+  .warning-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    background: var(--amber-dim);
+    border: 1px solid rgba(245,166,35,0.35);
+    color: var(--amber);
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+  }
+
+  /* ── NUMBERED CARDS (2-col) ── */
+  .cards-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  /* ── REFERENCE TABLE ── */
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  thead tr {
+    background: var(--surface2);
+  }
+  thead th {
+    padding: 14px 18px;
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+    border-bottom: 1px solid var(--border);
+  }
+  tbody tr { border-bottom: 1px solid var(--border); transition: background .15s; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--surface2); }
+  tbody tr:nth-child(odd) { background: rgba(255,255,255,0.015); }
+  tbody tr:nth-child(odd):hover { background: var(--surface2); }
+  td { padding: 12px 18px; color: #b0bec5; vertical-align: top; }
+  td:first-child {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--green);
+    font-weight: 700;
+    width: 48px;
+  }
+  td:nth-child(2) { color: #e2e8f0; font-weight: 500; }
+  td.workshop-cell { color: var(--amber); font-style: italic; }
+
+  /* ── HOW-TO USE ── */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+  }
+  .step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    position: relative;
+  }
+  .step-num {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--green);
+    background: var(--green-dim);
+    border: 1px solid rgba(0,229,160,0.25);
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 14px;
+  }
+  .step h4 { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 8px; }
+  .step p { font-size: 13px; color: var(--muted); }
+  .step strong { color: var(--text); }
+
+  /* ── QUICK LINKS ── */
+  .links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .link-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 22px;
+    transition: border-color .2s, transform .2s;
+  }
+  .link-card:hover { border-color: var(--green); transform: translateY(-2px); }
+  .link-icon {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  .link-card h4 { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+  .link-card p { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+  .link-card a {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--green);
+    text-decoration: none;
+  }
+  .link-card a:hover { text-decoration: underline; }
+
+  .loop-reminder {
+    background: var(--green-dim);
+    border: 1px solid rgba(0,229,160,0.25);
+    border-radius: 8px;
+    padding: 16px 22px;
+    font-size: 14px;
+    color: #a0e8cc;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .loop-reminder .check { font-size: 18px; flex-shrink: 0; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0 32px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 28px 32px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    letter-spacing: .05em;
+  }
+</style>
+</head>
+<body>
+
+  <div>
+    <a href="Linux_Hacking_Course - Copy.html", class="fas fa-shield-alt">Back to Course</a>
+        <a href="Linux_Hacking_Course - Copy.html", class="fas fa-shield-alt">Back to Course</a>
+    <a href="objetives_in_kali.html", class="fas fa-shield-alt">Objectives in Kali</a>
+
+  </div>
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Chapter-to-Challenge Map</div>
+  <h1>Linux Basics for Hackers</h1>
+  <p class="hero-sub">A companion guide mapping each chapter of <em>Linux Basics for Hackers</em> by OccupyTheWeb to hands-on practice on OverTheWire and picoCTF / picoGym. Read the chapter, then immediately drill it on the matching challenge — that's the loop that makes this stick.</p>
+  <div class="note-box">
+    <span class="icon">ℹ️</span>
+    <span><strong>picoGym note:</strong> picoCTF's practice site reuses problems from past competitions, but exact challenge titles get added/retired each year. This guide points to the <strong>category to filter by</strong> (General Skills, Cryptography, Forensics, Web Exploitation, Reverse Engineering, Binary Exploitation) plus what to search for in the difficulty filter.</span>
+  </div>
+</div>
+
+<!-- CHAPTERS 1–3 -->
+<div class="section">
+  <div class="section-header">
+    <h2>Chapters 1–3: Foundations</h2>
+    <p>The first three chapters build your terminal fluency — navigation, text processing, and network awareness. Bandit levels 0–13 cover all of this in sequence.</p>
+  </div>
+  <div class="cards">
+    <div class="card">
+      <div class="card-eyebrow">Chapter 1</div>
+      <h3>Getting Started with the Basics</h3>
+      <div class="topic">Topic: Navigation, core commands</div>
+      <ul>
+        <li><span class="label">OverTheWire:</span> Bandit 0–6 — ls, cd, cat, find, hidden files</li>
+        <li><span class="label">picoGym:</span> General Skills, easiest tier — basic Linux/terminal warmups</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-eyebrow">Chapter 2</div>
+      <h3>Text Manipulation</h3>
+      <div class="topic">Topic: grep, sed, awk, cut, sort</div>
+      <ul>
+        <li><span class="label">OverTheWire:</span> Bandit 7–13 — heavy grep/sort/uniq use to extract passwords from noisy files</li>
+        <li><span class="label">picoGym:</span> General Skills / Forensics — challenges asking you to extract a flag from a large text/log dump</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-eyebrow">Chapter 3</div>
+      <h3>Analyzing and Managing Networks</h3>
+      <div class="topic">Topic: netstat, ifconfig/ip, nmap, ports</div>
+      <ul>
+        <li><span class="label">OverTheWire:</span> Bandit 24, 27 (netcat-driven levels) + try Leviathan for service interaction</li>
+        <li><span class="label">picoGym:</span> General Skills — networking-tagged problems; also Forensics challenges involving packet captures (.pcap files)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- CHAPTERS 4–6 -->
+<div class="section">
+  <div class="section-header">
+    <h2>Chapters 4–6: Permissions, Processes &amp; Environment</h2>
+  </div>
+  <div class="cards">
+    <div class="card">
+      <div class="card-eyebrow">Chapter 4</div>
+      <h3>Adding and Removing Software</h3>
+      <div class="topic">Topic: apt/dpkg, package management</div>
+      <ul>
+        <li><span class="label">OverTheWire:</span> No direct OTW equivalent — best practiced on your own VM. Use Bandit as a sandbox to inspect installed binaries with <code>dpkg -l</code> once connected</li>
+        <li><span class="label">picoGym:</span> Not heavily tested directly; skip ahead, revisit when setting up your own attack VM</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-eyebrow">Chapter 5</div>
+      <h3>Controlling File and Directory Permissions</h3>
+      <div class="topic">Topic: chmod, chown, SUID/SGID, ACLs</div>
+      <ul>
+        <li><span class="label">OverTheWire:</span> Bandit 14, 15, 25, 31–33 — permission-gated files; Leviathan (almost entirely about exploiting SUID binaries)</li>
+        <li><span class="label">picoGym:</span> General Skills — "permissions" or "SUID" tagged challenges in the easy tier</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-eyebrow">Chapter 6</div>
+      <h3>Process Management</h3>
+      <div class="topic">Topic: ps, kill, top, background jobs</div>
+      <ul>
+        <li><span class="label">OverTheWire:</span> Bandit 32–33 touch on this; deeper practice: Leviathan levels involve inspecting running binaries</li>
+        <li><span class="label">picoGym:</span> Binary Exploitation (intro tier) — challenges that have you interact with a running process to extract a flag</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- CHAPTERS 7–9 -->
+<div class="section">
+  <div class="section-header">
+    <h2>Chapters 7–9: Scripting, Archives &amp; Environment</h2>
+  </div>
+  <div class="cards">
+    <div class="card">
+      <div class="card-eyebrow">Chapter 7</div>
+      <h3>Managing User Environment Variables</h3>
+      <div class="topic">Topic: $PATH, export, shell config files</div>
+      <ul>
+        <li><span class="label">OverTheWire:</span> Bandit 27–28 (git/environment quirks); look for "PATH hijacking" style levels in Narnia</li>
+        <li><span class="label">picoGym:</span> General Skills — environment/PATH manipulation challenges, often tagged "easy"</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-eyebrow">Chapter 8</div>
+      <h3>Bash Scripting</h3>
+      <div class="topic">Topic: Writing your own scripts/loops/conditionals</div>
+      <ul>
+        <li><span class="label">OverTheWire:</span> Bandit 33 and any level requiring you to script a brute-force or automate a repetitive task (several late Bandit levels reward scripting over manual repetition)</li>
+        <li><span class="label">picoGym:</span> General Skills — challenges that explicitly require scripting (e.g., generating/brute-forcing many values)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-eyebrow">Chapter 9</div>
+      <h3>Compressing and Archiving</h3>
+      <div class="topic">Topic: tar, gzip, zip, nested archives</div>
+      <ul>
+        <li><span class="label">OverTheWire:</span> Bandit 8–11 — multiple nested compression formats stacked together</li>
+        <li><span class="label">picoGym:</span> Forensics — "extract the flag from this archive" style challenges, often multi-layered</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- CHAPTERS 10–12 -->
+<div class="section">
+  <div class="section-header">
+    <h2>Chapters 10–12: Systems, Logging &amp; Services</h2>
+  </div>
+  <div class="cards">
+    <div class="card">
+      <div class="card-eyebrow">Chapter 10</div>
+      <h3>Filesystem and Storage Device Management</h3>
+      <div class="topic">Topic: Mounting, partitions, /proc, /sys, fdisk</div>
+      <ul>
+        <li><span class="label">OverTheWire:</span> No strong OTW match — practice on your own VM by mounting a second disk/USB and exploring /proc</li>
+        <li><span class="label">picoGym:</span> Forensics — disk image analysis challenges (.img/.dd files) are the closest fit</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-eyebrow">Chapter 11</div>
+      <h3>The Logging System</h3>
+      <div class="topic">Topic: /var/log, journalctl, syslog</div>
+      <ul>
+        <li><span class="label">OverTheWire:</span> Bandit doesn't focus on this directly; check /var/log access patterns once inside any Bandit level as a side-exercise</li>
+        <li><span class="label">picoGym:</span> Forensics — log analysis challenges (auth.log, access.log style problems)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-eyebrow">Chapter 12</div>
+      <h3>Using and Abusing Services</h3>
+      <div class="topic">Topic: Exploiting running daemons, weak service configs</div>
+      <ul>
+        <li><span class="label">OverTheWire:</span> Leviathan and Narnia — both built around exploiting locally running services/binaries</li>
+        <li><span class="label">picoGym:</span> Web Exploitation (if web service) or Binary Exploitation (if local daemon) — depends which service angle you're drilling</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- CHAPTERS 13–14 OPSEC & WIRELESS -->
+<div class="section">
+  <div class="section-header">
+    <h2>Chapters 13–14: OPSEC &amp; Wireless</h2>
+  </div>
+  <div class="warning-badge">⚠️ Workshop-Only Chapters</div>
+  <p style="color:var(--muted); font-size:14px; max-width:700px; margin-bottom:28px;">These two chapters are the <strong style="color:var(--text)">exceptions</strong> in this guide — they cover OPSEC, anonymity tooling, and wireless hardware that don't map to puzzle-style CTF challenges. Treat them as <strong style="color:var(--text)">standalone workshop sessions</strong> rather than assigned homework.</p>
+  <div class="cards-2">
+    <div class="card workshop">
+      <div class="card-eyebrow">Chapter 13</div>
+      <h3>Becoming Secure and Anonymous</h3>
+      <div class="topic">Topic: VPNs, Tor, OPSEC, anonymity tooling</div>
+      <ul>
+        <li><span class="label">OverTheWire:</span> Not OTW's focus — conceptual/tooling practice outside wargames</li>
+        <li><span class="label">picoGym:</span> Doesn't test this directly either</li>
+      </ul>
+      <p style="margin-top:14px; font-size:13px; color:var(--muted)">Treat as a <strong style="color:var(--text)">club discussion/workshop topic</strong> rather than a CTF skill. Great for a "Tor + OPSEC discussion night."</p>
+    </div>
+    <div class="card workshop">
+      <div class="card-eyebrow">Chapter 14</div>
+      <h3>Understanding and Inspecting Wireless Networks</h3>
+      <div class="topic">Topic: Wi-Fi monitor mode, packet capture, deauth</div>
+      <ul>
+        <li><span class="label">OverTheWire:</span> No OTW equivalent (needs real RF hardware)</li>
+        <li><span class="label">picoGym:</span> picoCTF doesn't cover wireless either</li>
+      </ul>
+      <p style="margin-top:14px; font-size:13px; color:var(--muted)">This is the one chapter where you'll want a <strong style="color:var(--text)">separate hands-on lab</strong> — e.g., a club Wi-Fi monitor-mode session on hardware you own.</p>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- CHAPTERS 15–17 -->
+<div class="section">
+  <div class="section-header">
+    <h2>Chapters 15–17: Kernel, Cron &amp; Python</h2>
+  </div>
+  <div class="cards">
+    <div class="card">
+      <div class="card-eyebrow">Chapter 15</div>
+      <h3>Managing the Linux Kernel and Loadable Kernel Modules</h3>
+      <div class="topic">Topic: Kernel modules, lsmod, insmod</div>
+      <ul>
+        <li><span class="label">OverTheWire:</span> Behemoth / Utumno start to touch kernel-adjacent exploitation once you're past basic binary exploitation</li>
+        <li><span class="label">picoGym:</span> Binary Exploitation — harder tier, kernel-adjacent challenges are rarer but tagged when present</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-eyebrow">Chapter 16</div>
+      <h3>Automating Tasks with Job Scheduling</h3>
+      <div class="topic">Topic: cron, at, scheduled task abuse</div>
+      <ul>
+        <li><span class="label">OverTheWire:</span> Bandit 21, 27 — cron-based privilege escalation is a classic Bandit lesson</li>
+        <li><span class="label">picoGym:</span> General Skills — privilege escalation via cron is a recurring theme in easy/medium tier</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-eyebrow">Chapter 17</div>
+      <h3>Python Scripting Basics for Hackers</h3>
+      <div class="topic">Topic: Writing exploit/automation scripts in Python</div>
+      <ul>
+        <li><span class="label">OverTheWire:</span> Use Python to automate brute-forcing or pattern-matching across any late Bandit level, or write a solver for Krypton's cipher levels</li>
+        <li><span class="label">picoGym:</span> Cryptography and Reverse Engineering — most challenges in these categories expect a short Python script to solve</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- FULL REFERENCE TABLE -->
+<div class="section">
+  <div class="section-header">
+    <h2>Full Chapter Reference Table</h2>
+    <p>Use this table as a quick lookup when planning sessions or assigning homework.</p>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Ch.</th>
+          <th>Topic</th>
+          <th>OverTheWire</th>
+          <th>picoGym Category</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Navigation, core commands</td><td>Bandit 0–6</td><td>General Skills, easiest tier</td></tr>
+        <tr><td>2</td><td>grep, sed, awk, cut, sort</td><td>Bandit 7–13</td><td>General Skills / Forensics</td></tr>
+        <tr><td>3</td><td>netstat, ifconfig, nmap, ports</td><td>Bandit 24, 27; Leviathan</td><td>General Skills / Forensics (.pcap)</td></tr>
+        <tr><td>4</td><td>apt/dpkg, package management</td><td>Own VM practice</td><td>— skip, revisit later</td></tr>
+        <tr><td>5</td><td>chmod, chown, SUID/SGID</td><td>Bandit 14,15,25,31–33; Leviathan</td><td>General Skills (SUID tagged)</td></tr>
+        <tr><td>6</td><td>ps, kill, top, background jobs</td><td>Bandit 32–33; Leviathan</td><td>Binary Exploitation (intro)</td></tr>
+        <tr><td>7</td><td>$PATH, export, shell config</td><td>Bandit 27–28; Narnia</td><td>General Skills (PATH/easy)</td></tr>
+        <tr><td>8</td><td>Bash scripting, loops, conditionals</td><td>Bandit 33; late Bandit levels</td><td>General Skills (scripting)</td></tr>
+        <tr><td>9</td><td>tar, gzip, zip, nested archives</td><td>Bandit 8–11</td><td>Forensics (archive extraction)</td></tr>
+        <tr><td>10</td><td>Mounting, partitions, /proc</td><td>Own VM practice</td><td>Forensics (.img/.dd)</td></tr>
+        <tr><td>11</td><td>/var/log, journalctl, syslog</td><td>Side-exercise in Bandit</td><td>Forensics (log analysis)</td></tr>
+        <tr><td>12</td><td>Exploiting running daemons</td><td>Leviathan, Narnia</td><td>Web Exploit / Binary Exploit</td></tr>
+        <tr><td>13</td><td>VPNs, Tor, OPSEC</td><td class="workshop-cell">— workshop only</td><td class="workshop-cell">— workshop only</td></tr>
+        <tr><td>14</td><td>Wi-Fi monitor mode, deauth</td><td class="workshop-cell">— hardware lab</td><td class="workshop-cell">— hardware lab</td></tr>
+        <tr><td>15</td><td>Kernel modules, lsmod, insmod</td><td>Behemoth / Utumno</td><td>Binary Exploitation (hard)</td></tr>
+        <tr><td>16</td><td>cron, at, scheduled task abuse</td><td>Bandit 21, 27</td><td>General Skills (cron priv esc)</td></tr>
+        <tr><td>17</td><td>Python exploit/automation scripts</td><td>Bandit + Krypton solver</td><td>Cryptography / Reverse Eng.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- HOW TO USE WITH THE CLUB -->
+<div class="section">
+  <div class="section-header">
+    <h2>How to Use This With the Club</h2>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h4>Read-then-drill loop</h4>
+      <p>Assign a chapter as reading <strong>before</strong> each session, then spend the session live-solving the matched OverTheWire levels together. The immediate application cements the concepts.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h4>picoGym as homework</h4>
+      <p>Since OTW levels are sequential and shared, use picoGym (filtered by the category listed in the table) as <strong>individual homework</strong> so people aren't blocked waiting on each other.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h4>Chapters 4, 10, 13, 14 are the exceptions</h4>
+      <p>They're light on OTW/picoCTF matches because they're systems/OPSEC/hardware topics. Treat those as <strong>standalone workshop sessions</strong> — e.g., "set up a VM," "Tor + OPSEC discussion night."</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <h4>Chapter 17 (Python) pairs with your branch</h4>
+      <p>Worth pairing with whichever branch (web/binary/crypto) the club chooses from the earlier roadmap — <strong>most real progress past beginner level requires scripting.</strong></p>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- QUICK LINKS -->
+<div class="section">
+  <div class="section-header">
+    <h2>Quick Links</h2>
+    <p>All platforms are free to use. Start with Bandit, then branch out as your skills grow.</p>
+  </div>
+  <div class="links-grid">
+    <div class="link-card">
+      <div class="link-icon">⚔️</div>
+      <h4>Bandit</h4>
+      <p>The primary wargame for Chapters 1–3, 5, 7–9, 16. Start here.</p>
+      <a href="https://overthewire.org/wargames/bandit/" target="_blank">overthewire.org/wargames/bandit/</a>
+    </div>
+    <div class="link-card">
+      <div class="link-icon">🛡️</div>
+      <h4>Leviathan</h4>
+      <p>SUID exploitation and local service abuse — Chapters 5, 6, 12.</p>
+      <a href="https://overthewire.org/wargames/leviathan/" target="_blank">overthewire.org/wargames/leviathan/</a>
+    </div>
+    <div class="link-card">
+      <div class="link-icon">💻</div>
+      <h4>Narnia</h4>
+      <p>PATH hijacking, environment manipulation, local daemon exploitation — Chapters 7, 12.</p>
+      <a href="https://overthewire.org/wargames/narnia/" target="_blank">overthewire.org/wargames/narnia/</a>
+    </div>
+    <div class="link-card">
+      <div class="link-icon">🐛</div>
+      <h4>Behemoth</h4>
+      <p>Kernel-adjacent and advanced binary exploitation — Chapter 15.</p>
+      <a href="https://overthewire.org/wargames/behemoth/" target="_blank">overthewire.org/wargames/behemoth/</a>
+    </div>
+    <div class="link-card">
+      <div class="link-icon">🔐</div>
+      <h4>Krypton</h4>
+      <p>Cipher challenges — pair with Chapter 17 (Python scripting solvers).</p>
+      <a href="https://overthewire.org/wargames/krypton/" target="_blank">overthewire.org/wargames/krypton/</a>
+    </div>
+    <div class="link-card">
+      <div class="link-icon">🏆</div>
+      <h4>picoCTF / picoGym</h4>
+      <p>Category-filtered practice problems for homework. Filter by General Skills, Forensics, Cryptography, Binary Exploitation, Web Exploitation, or Reverse Engineering.</p>
+      <a href="https://picoctf.org" target="_blank">picoctf.org</a>
+    </div>
+  </div>
+  <div class="loop-reminder">
+    <span class="check">✅</span>
+    <span><strong>Remember the loop:</strong> Read the chapter → solve the matching OTW levels together → assign picoGym as homework. Repeat for every chapter.</span>
+  </div>
+</div>
+
+<footer>Made with ♥ — Linux Basics for Hackers by OccupyTheWeb</footer>
+
+</body>
+</html>
