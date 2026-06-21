@@ -36,6 +36,51 @@
     min-height: 100vh;
   }
 
+  .site-header {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px 32px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .site-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: -.02em;
+  }
+  .site-brand i { color: var(--green); }
+  .site-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .site-nav a {
+    text-decoration: none;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 9px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: border-color .2s, background .2s, color .2s;
+  }
+  .site-nav a:hover {
+    border-color: var(--green);
+    background: rgba(0,229,160,0.08);
+  }
+  .site-nav a.active {
+    background: var(--green);
+    border-color: var(--green);
+    color: #06110d;
+  }
+
   /* ── HERO ── */
   .hero {
     position: relative;
@@ -336,6 +381,15 @@
 </style>
 </head>
 <body>
+
+<header class="site-header">
+  <div class="site-brand"><i class="fas fa-shield-alt"></i> CGEC Club</div>
+  <nav class="site-nav" aria-label="Primary navigation">
+    <a href="index.html">Home</a>
+    <a class="active" href="linux_basics_hackers_guide.html">Challenge</a>
+    <a href="objetives_in_kali.html">Objectives</a>
+  </nav>
+</header>
 
   <div>
     <a href="index.html", class="fas fa-shield-alt">Back to the main Course</a>
