@@ -18,6 +18,51 @@
             max-width: 1100px;
             margin: 0 auto;
         }
+        .site-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.2rem;
+            padding: 0.25rem 0 1rem;
+            border-bottom: 1px solid #e9edf4;
+        }
+        .site-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 700;
+            color: #0a2942;
+        }
+        .site-brand i {
+            color: #1b6f8c;
+        }
+        .site-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+        .site-nav a {
+            text-decoration: none;
+            color: #2b4a6b;
+            background: #eef2f8;
+            border: 1px solid #dce6f3;
+            padding: 0.5rem 0.9rem;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: 0.15s;
+        }
+        .site-nav a:hover {
+            background: #e3edf8;
+            border-color: #b9cde2;
+        }
+        .site-nav a.active {
+            background: #1b6f8c;
+            border-color: #1b6f8c;
+            color: white;
+        }
         .container {
             background: white;
             border-radius: 24px;
@@ -120,6 +165,14 @@
     </style>
 </head>
 <body>
+    <header class="site-header">
+        <div class="site-brand"><i class="fas fa-shield-alt"></i> CGEC Club</div>
+        <nav class="site-nav" aria-label="Primary navigation">
+            <a href="index.html">Home</a>
+            <a href="linux_basics_hackers_guide.html">Challenge</a>
+            <a class="active" href="objetives_in_kali.html">Objectives</a>
+        </nav>
+    </header>
 <div class="container">
     <h1>🧠 Linux Basics for Hackers</h1>
     <div class="subhead">📌 Complete list of learning objectives — check off each one as you master it.</div>
