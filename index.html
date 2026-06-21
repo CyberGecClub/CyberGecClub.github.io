@@ -50,6 +50,31 @@
             padding: 0.2rem 1rem;
             border-radius: 40px;
         }
+        .club-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .club-nav a {
+            color: #c6deff;
+            text-decoration: none;
+            border: 1px solid #2d4a70;
+            background: #1f3450;
+            padding: 0.45rem 0.9rem;
+            border-radius: 999px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            transition: 0.15s;
+        }
+        .club-nav a:hover {
+            background: #2a4166;
+            border-color: #4f7fc9;
+        }
+        .club-nav a.active {
+            background: #5d9cff;
+            border-color: #5d9cff;
+            color: #0b0f17;
+        }
         .slides {
             min-height: 420px;
             position: relative;
@@ -233,7 +258,11 @@
     <div class="club-header">
         <div class="brand"><i class="fas fa-shield-alt"></i> CGEC Club</div>
         <div class="tagline"><i class="fas fa-graduation-cap"></i> Hacking &amp; Security Academy</div>
-        <div><a href="linux_basics_hackers_guide.html">Click here to start challenge</a></div>
+        <nav class="club-nav" aria-label="Primary navigation">
+            <a class="active" href="index.html">Home</a>
+            <a href="linux_basics_hackers_guide.html">Challenge</a>
+            <a href="objetives_in_kali.html">Objectives</a>
+        </nav>
     </div>
 
     <div class="slides">
