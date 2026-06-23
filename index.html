@@ -662,29 +662,245 @@ function toggle(el) {
             </div>
         </div>
 
-        <!-- SLIDE 4: QUIZ PART 1 -->
-        <div class="slide" data-index="4">
-            <div class="part-badge"><i class="fas fa-question-circle"></i> Quiz · Part 1</div>
-            <h2><i class="fas fa-brain"></i> Foundations Quiz</h2>
-            <p><strong>Q1.</strong> Which directory holds system configuration files?</p>
-            <div class="quiz" data-correct="1">
-                <div class="quiz-opt" data-val="0">A) <code>/home</code></div>
-                <div class="quiz-opt" data-val="1">B) <code>/etc</code></div>
-                <div class="quiz-opt" data-val="2">C) <code>/bin</code></div>
-                <div class="quiz-opt" data-val="3">D) <code>/tmp</code></div>
-                <div class="quiz-feedback">✅ Correct! <code>/etc</code> stores config files.</div>
-                <div class="quiz-feedback" data-wrong>❌ Try again – think about where services keep their configs.</div>
-            </div>
-            <p style="margin-top:1rem;"><strong>Q2.</strong> Which command displays only lines with "mysql"?</p>
-            <div class="quiz" data-correct="2">
-                <div class="quiz-opt" data-val="0">A) <code>cat file &gt; mysql</code></div>
-                <div class="quiz-opt" data-val="1">B) <code>grep file mysql</code></div>
-                <div class="quiz-opt" data-val="2">C) <code>cat file | grep mysql</code></div>
-                <div class="quiz-opt" data-val="3">D) <code>sed file mysql</code></div>
-                <div class="quiz-feedback">✅ <code>cat | grep</code> is the standard pipe pattern.</div>
-                <div class="quiz-feedback" data-wrong>❌ Remember: <code>grep</code> filters, pipes (<code>|</code>) connect.</div>
-            </div>
-        </div>
+<!-- SLIDE 4: KALI LINUX FILE NAVIGATION & NETWORKING EXAM -->
+<div class="slide" data-index="4">
+    <div class="part-badge">
+        <i class="fas fa-network-wired"></i> Kali Linux Exam
+    </div>
+
+    <h2>
+        <i class="fas fa-terminal"></i>
+        Kali Linux File Navigation & Networking Exam
+    </h2>
+
+    <p><strong>Score:</strong> <span id="score">0</span> / 20</p>
+
+    <!-- Q1 -->
+    <p><strong>Q1.</strong> Which command displays the absolute path of the current working directory?</p>
+    <div class="quiz" data-correct="0">
+        <div class="quiz-opt" data-val="0">A) <code>pwd</code></div>
+        <div class="quiz-opt" data-val="1">B) <code>dir</code></div>
+        <div class="quiz-opt" data-val="2">C) <code>whereami</code></div>
+        <div class="quiz-opt" data-val="3">D) <code>path</code></div>
+        <div class="quiz-feedback">✅ Correct! <code>pwd</code> prints the working directory.</div>
+        <div class="quiz-feedback" data-wrong>❌ Incorrect. Use the command that means "print working directory".</div>
+    </div>
+
+    <!-- Q2 -->
+    <p><strong>Q2.</strong> Which command lists all files including hidden files?</p>
+    <div class="quiz" data-correct="1">
+        <div class="quiz-opt" data-val="0">A) <code>ls -h</code></div>
+        <div class="quiz-opt" data-val="1">B) <code>ls -a</code></div>
+        <div class="quiz-opt" data-val="2">C) <code>ls -l</code></div>
+        <div class="quiz-opt" data-val="3">D) <code>ls -d</code></div>
+        <div class="quiz-feedback">✅ Correct! <code>ls -a</code> displays hidden files.</div>
+        <div class="quiz-feedback" data-wrong>❌ Hidden files begin with a dot (.).</div>
+    </div>
+
+    <!-- Q3 -->
+    <p><strong>Q3.</strong> Which command changes to the current user's home directory?</p>
+    <div class="quiz" data-correct="2">
+        <div class="quiz-opt" data-val="0">A) <code>cd ..</code></div>
+        <div class="quiz-opt" data-val="1">B) <code>cd /</code></div>
+        <div class="quiz-opt" data-val="2">C) <code>cd ~</code></div>
+        <div class="quiz-opt" data-val="3">D) <code>cd -</code></div>
+        <div class="quiz-feedback">✅ Correct! <code>~</code> represents the user's home directory.</div>
+        <div class="quiz-feedback" data-wrong>❌ Try again.</div>
+    </div>
+
+    <!-- Q4 -->
+    <p><strong>Q4.</strong> Which command creates the nested directory path <code>project/src/core</code> in one step?</p>
+    <div class="quiz" data-correct="0">
+        <div class="quiz-opt" data-val="0">A) <code>mkdir -p project/src/core</code></div>
+        <div class="quiz-opt" data-val="1">B) <code>mkdir -v project/src/core</code></div>
+        <div class="quiz-opt" data-val="2">C) <code>mkdir -m project/src/core</code></div>
+        <div class="quiz-opt" data-val="3">D) <code>mkdir -a project/src/core</code></div>
+        <div class="quiz-feedback">✅ Correct! <code>-p</code> creates parent directories automatically.</div>
+        <div class="quiz-feedback" data-wrong>❌ Use the parents option.</div>
+    </div>
+
+    <!-- Q5 -->
+    <p><strong>Q5.</strong> Which command displays the contents of a text file directly in the terminal?</p>
+    <div class="quiz" data-correct="1">
+        <div class="quiz-opt" data-val="0">A) <code>touch</code></div>
+        <div class="quiz-opt" data-val="1">B) <code>cat</code></div>
+        <div class="quiz-opt" data-val="2">C) <code>nano</code></div>
+        <div class="quiz-opt" data-val="3">D) <code>rm</code></div>
+        <div class="quiz-feedback">✅ Correct! <code>cat</code> prints file contents.</div>
+        <div class="quiz-feedback" data-wrong>❌ Try again.</div>
+    </div>
+
+    <!-- Q6 -->
+    <p><strong>Q6.</strong> Which command removes a non-empty directory and all contents?</p>
+    <div class="quiz" data-correct="1">
+        <div class="quiz-opt" data-val="0">A) <code>rmdir old_files</code></div>
+        <div class="quiz-opt" data-val="1">B) <code>rm -rf old_files</code></div>
+        <div class="quiz-opt" data-val="2">C) <code>rm -d old_files</code></div>
+        <div class="quiz-opt" data-val="3">D) <code>mv old_files /dev/null</code></div>
+        <div class="quiz-feedback">✅ Correct! <code>rm -rf</code> recursively deletes directories.</div>
+        <div class="quiz-feedback" data-wrong>❌ Use recursive force removal.</div>
+    </div>
+
+    <!-- Q7 -->
+    <p><strong>Q7.</strong> Which command moves or renames a file?</p>
+    <div class="quiz" data-correct="1">
+        <div class="quiz-opt" data-val="0">A) <code>cp</code></div>
+        <div class="quiz-opt" data-val="1">B) <code>mv</code></div>
+        <div class="quiz-opt" data-val="2">C) <code>ln</code></div>
+        <div class="quiz-opt" data-val="3">D) <code>rn</code></div>
+        <div class="quiz-feedback">✅ Correct! <code>mv</code> moves and renames files.</div>
+        <div class="quiz-feedback" data-wrong>❌ Try again.</div>
+    </div>
+
+    <!-- Q8 -->
+    <p><strong>Q8.</strong> Which command shows the first 10 lines of a file?</p>
+    <div class="quiz" data-correct="2">
+        <div class="quiz-opt" data-val="0">A) <code>tail</code></div>
+        <div class="quiz-opt" data-val="1">B) <code>less</code></div>
+        <div class="quiz-opt" data-val="2">C) <code>head</code></div>
+        <div class="quiz-opt" data-val="3">D) <code>grep</code></div>
+        <div class="quiz-feedback">✅ Correct! <code>head</code> displays the first lines.</div>
+        <div class="quiz-feedback" data-wrong>❌ Think about the opposite of tail.</div>
+    </div>
+
+    <!-- Q9 -->
+    <p><strong>Q9.</strong> Which command searches for all .txt files starting from the root directory?</p>
+    <div class="quiz" data-correct="1">
+        <div class="quiz-opt" data-val="0">A) <code>locate -d /</code></div>
+        <div class="quiz-opt" data-val="1">B) <code>find / -name "*.txt"</code></div>
+        <div class="quiz-opt" data-val="2">C) <code>whereis /</code></div>
+        <div class="quiz-opt" data-val="3">D) <code>cat / -find</code></div>
+        <div class="quiz-feedback">✅ Correct! <code>find</code> performs real-time searches.</div>
+        <div class="quiz-feedback" data-wrong>❌ Use the Linux search utility.</div>
+    </div>
+
+    <!-- Q10 -->
+    <p><strong>Q10.</strong> What does <code>..</code> represent?</p>
+    <div class="quiz" data-correct="2">
+        <div class="quiz-opt" data-val="0">A) Root directory</div>
+        <div class="quiz-opt" data-val="1">B) Current directory</div>
+        <div class="quiz-opt" data-val="2">C) Parent directory</div>
+        <div class="quiz-opt" data-val="3">D) Temporary directory</div>
+        <div class="quiz-feedback">✅ Correct! <code>..</code> refers to the parent directory.</div>
+        <div class="quiz-feedback" data-wrong>❌ Think one level above.</div>
+    </div>
+
+    <!-- NETWORK SECTION -->
+    <h3 style="margin-top:2rem;">
+        <i class="fas fa-network-wired"></i>
+        Network Configuration
+    </h3>
+
+    <!-- Q11 -->
+    <p><strong>Q11.</strong> Which command displays active routing information?</p>
+    <div class="quiz" data-correct="0">
+        <div class="quiz-opt" data-val="0">A) <code>ip route</code></div>
+        <div class="quiz-opt" data-val="1">B) <code>ifconfig routes</code></div>
+        <div class="quiz-opt" data-val="2">C) <code>netstat -i</code></div>
+        <div class="quiz-opt" data-val="3">D) <code>traceroute -r</code></div>
+        <div class="quiz-feedback">✅ Correct! <code>ip route</code> displays routing tables.</div>
+        <div class="quiz-feedback" data-wrong>❌ Use the modern ip utility.</div>
+    </div>
+
+    <!-- Q12 -->
+    <p><strong>Q12.</strong> Which command assigns 192.168.1.100/24 to eth0?</p>
+    <div class="quiz" data-correct="0">
+        <div class="quiz-opt" data-val="0">A) <code>ip addr add 192.168.1.100/24 dev eth0</code></div>
+        <div class="quiz-opt" data-val="1">B) <code>ip link set eth0 ip 192.168.1.100</code></div>
+        <div class="quiz-opt" data-val="2">C) <code>ifconfig eth0 192.168.1.100</code></div>
+        <div class="quiz-opt" data-val="3">D) <code>ip route add 192.168.1.100</code></div>
+        <div class="quiz-feedback">✅ Correct! Modern IP assignment syntax.</div>
+        <div class="quiz-feedback" data-wrong>❌ Use ip addr add.</div>
+    </div>
+
+    <!-- Q13 -->
+    <p><strong>Q13.</strong> Which tool queries DNS records such as MX and NS?</p>
+    <div class="quiz" data-correct="2">
+        <div class="quiz-opt" data-val="0">A) <code>ping</code></div>
+        <div class="quiz-opt" data-val="1">B) <code>arp</code></div>
+        <div class="quiz-opt" data-val="2">C) <code>dig</code></div>
+        <div class="quiz-opt" data-val="3">D) <code>netstat</code></div>
+        <div class="quiz-feedback">✅ Correct! <code>dig</code> is a DNS investigation tool.</div>
+        <div class="quiz-feedback" data-wrong>❌ Think DNS.</div>
+    </div>
+
+    <!-- Q14 -->
+    <p><strong>Q14.</strong> Which command displays the ARP/neighbor cache?</p>
+    <div class="quiz" data-correct="0">
+        <div class="quiz-opt" data-val="0">A) <code>ip neighbor</code></div>
+        <div class="quiz-opt" data-val="1">B) <code>ss -t</code></div>
+        <div class="quiz-opt" data-val="2">C) <code>hostname -I</code></div>
+        <div class="quiz-opt" data-val="3">D) <code>iwconfig</code></div>
+        <div class="quiz-feedback">✅ Correct! <code>ip neighbor</code> shows ARP entries.</div>
+        <div class="quiz-feedback" data-wrong>❌ ARP information is stored in the neighbor cache.</div>
+    </div>
+
+    <!-- Q15 -->
+    <p><strong>Q15.</strong> Which utility traces packet paths using TTL values?</p>
+    <div class="quiz" data-correct="1">
+        <div class="quiz-opt" data-val="0">A) <code>nslookup</code></div>
+        <div class="quiz-opt" data-val="1">B) <code>traceroute</code></div>
+        <div class="quiz-opt" data-val="2">C) <code>ip link show</code></div>
+        <div class="quiz-opt" data-val="3">D) <code>route add</code></div>
+        <div class="quiz-feedback">✅ Correct! <code>traceroute</code> maps network paths.</div>
+        <div class="quiz-feedback" data-wrong>❌ Think path discovery.</div>
+    </div>
+
+    <!-- Q16 -->
+    <p><strong>Q16.</strong> Which command displays listening TCP ports and process names?</p>
+    <div class="quiz" data-correct="0">
+        <div class="quiz-opt" data-val="0">A) <code>ss -tlp</code></div>
+        <div class="quiz-opt" data-val="1">B) <code>ip addr show</code></div>
+        <div class="quiz-opt" data-val="2">C) <code>ping -a</code></div>
+        <div class="quiz-opt" data-val="3">D) <code>ifconfig -a</code></div>
+        <div class="quiz-feedback">✅ Correct! ss shows sockets and process information.</div>
+        <div class="quiz-feedback" data-wrong>❌ Use the socket statistics utility.</div>
+    </div>
+
+    <!-- Q17 -->
+    <p><strong>Q17.</strong> Which file stores static hostname-to-IP mappings?</p>
+    <div class="quiz" data-correct="1">
+        <div class="quiz-opt" data-val="0">A) <code>/etc/resolv.conf</code></div>
+        <div class="quiz-opt" data-val="1">B) <code>/etc/hosts</code></div>
+        <div class="quiz-opt" data-val="2">C) <code>/etc/networks</code></div>
+        <div class="quiz-opt" data-val="3">D) <code>/etc/hostname</code></div>
+        <div class="quiz-feedback">✅ Correct! Local hostname overrides are stored in /etc/hosts.</div>
+        <div class="quiz-feedback" data-wrong>❌ Not the DNS resolver file.</div>
+    </div>
+
+    <!-- Q18 -->
+    <p><strong>Q18.</strong> Which command releases and renews a DHCP lease?</p>
+    <div class="quiz" data-correct="0">
+        <div class="quiz-opt" data-val="0">A) <code>dhclient -r && dhclient</code></div>
+        <div class="quiz-opt" data-val="1">B) <code>ip route flush all</code></div>
+        <div class="quiz-opt" data-val="2">C) <code>iwconfig dev refresh</code></div>
+        <div class="quiz-opt" data-val="3">D) <code>ifconfig down</code></div>
+        <div class="quiz-feedback">✅ Correct! Release then renew.</div>
+        <div class="quiz-feedback" data-wrong>❌ Think DHCP client.</div>
+    </div>
+
+    <!-- Q19 -->
+    <p><strong>Q19.</strong> Which command configures wireless interface settings?</p>
+    <div class="quiz" data-correct="1">
+        <div class="quiz-opt" data-val="0">A) <code>ifconfig</code></div>
+        <div class="quiz-opt" data-val="1">B) <code>iwconfig</code></div>
+        <div class="quiz-opt" data-val="2">C) <code>ethtool</code></div>
+        <div class="quiz-opt" data-val="3">D) <code>ip link set</code></div>
+        <div class="quiz-feedback">✅ Correct! <code>iwconfig</code> manages wireless settings.</div>
+        <div class="quiz-feedback" data-wrong>❌ Think Wi-Fi configuration.</div>
+    </div>
+
+    <!-- Q20 -->
+    <p><strong>Q20.</strong> Which file contains DNS nameserver addresses?</p>
+    <div class="quiz" data-correct="1">
+        <div class="quiz-opt" data-val="0">A) <code>/etc/hostname</code></div>
+        <div class="quiz-opt" data-val="1">B) <code>/etc/resolv.conf</code></div>
+        <div class="quiz-opt" data-val="2">C) <code>/etc/protocols</code></div>
+        <div class="quiz-opt" data-val="3">D) <code>/etc/services</code></div>
+        <div class="quiz-feedback">✅ Correct! DNS servers are configured in <code>/etc/resolv.conf</code>.</div>
+        <div class="quiz-feedback" data-wrong>❌ This is the resolver configuration file.</div>
+    </div>
+</div>
 
         <!-- ============================================================ -->
         <!-- ========= PART 2 : MODULES 4, 5, 6 ========= -->
